@@ -68,18 +68,24 @@ class Funcs
   end  
 end    
 
-
+# add a method to the class
 Funcs.class_eval do
   def dynamic
     puts "Calling dynamic"
   end
 end
 
+# add a method to the Funcs instance (ie a class method)
 Funcs.instance_eval do
   def dynamic2
     puts "Calling dynamic 2"
   end   
 end  
+
+# add a class method, by adding directly to eigen class
+def Funcs.dynamic4
+  puts "Calling dynamic 4"
+end
 
 # class reopening (monkey patching)
 class Funcs
@@ -153,6 +159,7 @@ funcs.laugh
 # call some class methods
 Funcs.dynamic2
 Funcs.dynamic3
+Funcs.dynamic4
 Funcs.classmonkey
 Funcs.eigen
 # from Laughable
