@@ -1,4 +1,8 @@
+require 'laughable' # by requiring laugable its code will be executed
 class Funcs
+  #can include laughable if we own this class, but we will get laughable to do this for us 
+  include Laughable
+  
   attr_accessor :inner
   
   def initialize()
@@ -15,7 +19,7 @@ class Funcs
       args.each{|a| puts "a = #{a}"}  
   end
 
-  def func3(arg1, *other, hash, &block)
+  def func3(arg1, hash,  &block)
     puts "arg1 = #{arg1}"
     hash.each{|a| puts "a = #{a}"} 
     puts other
@@ -27,7 +31,7 @@ class Funcs
     #class_eval &block     
   end
   
-  def func4(arg1, *other, hash, &block)
+  def func4(arg1, hash,  &block)
     puts "arg1 = #{arg1}"
     hash.each{|a| puts "a = #{a}"} 
     puts other
@@ -116,7 +120,7 @@ funcs.func(1,2,4,5,6, "hello", :again)
 
 funcs.func2 :a => "one", :b => "two", :c => "three"
 
-funcs.func3 :foo, :bar, :test, :a => "one", :b => "two", :c => "three" do 
+funcs.func3 :foo, :a => "one", :b => "two", :c => "three" do 
    puts "Self is: #{self}"
    say_hello
    dynamic
@@ -125,7 +129,7 @@ funcs.func3 :foo, :bar, :test, :a => "one", :b => "two", :c => "three" do
    puts "inner 1 = #{@inner}"
 end  
 
-funcs.func4 :foo, :bar, :test, :a => "one", :b => "two", :c => "three" do |f|
+funcs.func4 :foo,  :a => "one", :b => "two", :c => "three" do |f|
    puts "calling block with #{f}"
    puts "Self is: #{self}"
    f.say_hello
@@ -143,9 +147,14 @@ funcs.monkey
 
 funcs.tiger "ROAR"
 
+# from Laughable
+funcs.laugh
+
 # call some class methods
 Funcs.dynamic2
 Funcs.dynamic3
 Funcs.classmonkey
 Funcs.eigen
+# from Laughable
+Funcs.laugh_more
 
