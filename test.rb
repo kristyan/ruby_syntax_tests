@@ -55,6 +55,13 @@ class Funcs
   def method_missing(sym, *args, &block)
      puts "method #{sym} missing with args = #{args}"  
   end  
+  
+  # change context to eigen class
+  class << self
+    def eigen
+      puts "eigen"
+    end 
+  end  
 end    
 
 
@@ -75,9 +82,35 @@ class Funcs
   def monkey
     puts "monkey called"
   end
+  
+  def tiger(param)
+    puts "calling base tiger param = #{param}"
+  end
+
 end  
 
-funcs = Funcs.new
+# reopen eigenclass
+class << Funcs
+   def classmonkey
+     puts "class monkey called"
+   end
+end  
+
+class MoreFuncs < Funcs
+  def monkey
+    super
+    puts "More funcs monkey... about to call super"
+    super
+  end
+  
+  def tiger(param)
+    puts "calling derived tiger param = #{param}"
+    super
+  end  
+    
+end
+  
+funcs = MoreFuncs.new
 
 funcs.func(1,2,4,5,6, "hello", :again)
 
@@ -108,7 +141,11 @@ funcs.blah(1, :cool, :a => "kris", :b => "john")
 
 funcs.monkey
 
+funcs.tiger "ROAR"
+
 # call some class methods
 Funcs.dynamic2
 Funcs.dynamic3
+Funcs.classmonkey
+Funcs.eigen
 
